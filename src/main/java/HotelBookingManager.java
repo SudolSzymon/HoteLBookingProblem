@@ -6,29 +6,24 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.Objects.requireNonNull;
 
-public class BookingManagerImpl implements BookingManager {
+public class HotelBookingManager implements BookingManager {
 
-    private final Map<LocalDate, Map<Integer, String>> BOOKINGS = new ConcurrentHashMap<>();
-    private final Set<Integer> ROOM_NUMBERS = new HashSet<>();
+    private static final Map<LocalDate, Map<Integer, String>> BOOKINGS = new ConcurrentHashMap<>();
+    public static final Set<Integer> ROOM_NUMBERS = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 234, 4324, 23239871, 101));
 
-    private static BookingManager instance;
-
-    private BookingManagerImpl(Integer... roomNumbers) {
-        Collections.addAll(ROOM_NUMBERS, roomNumbers);
+    private static class singletonHolder {
+        static final HotelBookingManager INSTANCE = new HotelBookingManager();
     }
 
-    public static BookingManager getInstance() {
-        return instance;
+    public static HotelBookingManager getInstance() {
+        return singletonHolder.INSTANCE;
     }
 
     /**
-     * Creates new booking manager  replacing old one
-     * */
-    public static void createBookingManager(Integer... roomNumbers) {
-        requireNonNull(roomNumbers, "roomNumbers");
-        instance = new BookingManagerImpl(roomNumbers);
+     * Prevent  initialisation outside this class
+     */
+    private HotelBookingManager() {
     }
-
 
     @Override
     public boolean isRoomAvailable(Integer room, LocalDate date) {
@@ -42,7 +37,7 @@ public class BookingManagerImpl implements BookingManager {
     }
 
     @Override
-    public void addBooking(String guest, Integer room, LocalDate date) {
+    public void addBooking(String guest, Integer room, LocalDate date) throws IllegalArgumentException{
         requireNonNull(room, "room");
         requireNonNull(date, "date");
         requireNonNull(guest, "guest");
