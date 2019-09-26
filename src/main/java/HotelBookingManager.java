@@ -11,12 +11,12 @@ public class HotelBookingManager implements BookingManager {
     private static final Map<LocalDate, Map<Integer, String>> BOOKINGS = new ConcurrentHashMap<>();
     public static final Set<Integer> ROOM_NUMBERS = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 234, 4324, 23239871, 101));
 
-    private static class singletonHolder {
+    private static class SingletonHolder {
         static final HotelBookingManager INSTANCE = new HotelBookingManager();
     }
 
     public static HotelBookingManager getInstance() {
-        return singletonHolder.INSTANCE;
+        return SingletonHolder.INSTANCE;
     }
 
     /**
